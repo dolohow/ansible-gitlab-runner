@@ -1,0 +1,9 @@
+---
+
+- name: Install ssh root keys
+  authorized_key:
+    user: root
+    state: present
+    key: '{{ item }}'
+  loop:
+    - https://github.com/dolohow.keys

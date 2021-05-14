@@ -1,0 +1,4 @@
+---
+
+- name: Start gitlab runner
+  service: name=gitlab-runner state=started enabled=yes

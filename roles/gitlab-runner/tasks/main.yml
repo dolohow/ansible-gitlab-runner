@@ -1,0 +1,24 @@
+---
+- name: Download GitLab runner
+  get_url:
+    url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+    dest: /usr/local/bin/gitlab-runner
+    mode: a+x
+
+- name: Add GitLab user
+  user:
+    name: gitlab-runner
+    comment: GitLab Runner
+    create_home: yes
+    shell: /bin/bash
+
+- name: Check if already installed
+  stat:
+    path: /etc/systemd/system/gitlab-runner.service
+  register: systemd_service_file
+
+- name: Install and run as service
+  command: gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+  when: systemd_service_file.stat.exists == False
+  notify:
+    - Start gitlab runner

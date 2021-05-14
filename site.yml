@@ -1,0 +1,8 @@
+---
+- name: Install GitLab runner
+  hosts: gitlab_runner
+  remote_user: root
+  roles:
+    - ssh
+    - docker
+    - gitlab-runners
